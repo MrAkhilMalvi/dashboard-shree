@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { ApiResponse, DashboardStats } from '../types/dashboard';
+import { useEffect, useState } from 'react';
+import { ApiResponse } from '../types/dashboard';
 
-export const useDashboardData = (url: string): ApiResponse => {
+export const useDashboardData = (url: string, reloadKey?: number): ApiResponse => {
   const [state, setState] = useState<ApiResponse>({ status: 'loading' });
 
   useEffect(() => {
@@ -10,23 +10,22 @@ export const useDashboardData = (url: string): ApiResponse => {
     const fetchData = async () => {
       try {
         setState({ status: 'loading' });
-        
+
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
         const json = await response.json();
-        const stats: DashboardStats = json.data;
 
         if (mounted) {
-          setState({ status: 'success', data: stats });
+          setState({ status: 'success', data: json.data });
         }
       } catch (error) {
         if (mounted) {
-          setState({ 
-            status: 'error', 
-            error: error instanceof Error ? error.message : 'Failed to load data'
+          setState({
+            status: 'error',
+            error: error instanceof Error ? error.message : 'Unknown error',
           });
         }
       }
@@ -37,7 +36,7 @@ export const useDashboardData = (url: string): ApiResponse => {
     return () => {
       mounted = false;
     };
-  }, [url]);
+  }, [url, reloadKey]);
 
   return state;
 };
