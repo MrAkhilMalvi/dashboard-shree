@@ -1,92 +1,90 @@
-import { Users, Building2, Download, Clock,  UserCheck } from 'lucide-react';
+import { Users, Building2, Download, Clock, UserCheck } from 'lucide-react';
 import { MetricField, DashboardSection } from '../types/dashboard';
 
 export const fieldMap: Record<string, MetricField & { iconComponent: any }> = {
-  total_student: { 
-    label: 'Total Students', 
-    color: '#10b981', 
-    icon: 'users', 
+  // Students
+  total_student: {
+    label: 'Total Students',
+    color: '#10b981',
+    icon: 'users',
     category: 'success',
-    iconComponent: Users
+    iconComponent: Users,
   },
-  total_student_down: { 
-    label: 'Downloaded Students', 
-    color: '#6366f1', 
-    icon: 'download', 
+  total_student_down: {
+    label: 'Downloaded Students',
+    color: '#6366f1',
+    icon: 'download',
     category: 'success',
-    iconComponent: Download
+    iconComponent: Download,
+    percentageOf: 'total_student',
+    percentageLabel: 'Downloaded',
   },
-  total_student_pen: { 
-    label: 'Pending Students', 
-    color: '#f59e0b', 
-    icon: 'clock', 
+  total_student_pen: {
+    label: 'Pending Students',
+    color: '#f59e0b',
+    icon: 'clock',
     category: 'success',
-    iconComponent: Clock
+    iconComponent: Clock,
+    percentageOf: 'total_student',
+    percentageLabel: 'Pending',
   },
-  // total_ht: { 
-  //   label: 'Total HTs', 
-  //   color: '#22d3ee', 
-  //   icon: 'users-round', 
-  //   category: 'info',
-  //   iconComponent: UsersRound
-  // },
-  total_school: { 
-    label: 'Total Schools', 
-    color: '#10b981', 
-    icon: 'building2', 
+
+  // Schools
+  total_school: {
+    label: 'Total Schools',
+    color: '#10b981',
+    icon: 'building2',
     category: 'info',
-    iconComponent: Building2
+    iconComponent: Building2,
   },
-  total_school_down: { 
-    label: 'Downloaded Schools', 
-    color: '#3b82f6', 
-    icon: 'download', 
+  total_school_down: {
+    label: 'Downloaded Schools',
+    color: '#3b82f6',
+    icon: 'download',
     category: 'info',
-    iconComponent: Download
+    iconComponent: Download,
+    percentageOf: 'total_school',
+    percentageLabel: 'Downloaded',
   },
-  total_school_pen: { 
-    label: 'Pending Schools', 
-    color: '#f59e0b', 
-    icon: 'clock', 
+  total_school_pen: {
+    label: 'Pending Schools',
+    color: '#f59e0b',
+    icon: 'clock',
     category: 'info',
-    iconComponent: Clock
+    iconComponent: Clock,
+    percentageOf: 'total_school',
+    percentageLabel: 'Pending',
   },
-  // down_ht: { 
-  //   label: 'Downloaded HTs', 
-  //   color: '#4f46e5', 
-  //   icon: 'cloud-done', 
-  //   category: 'primary',
-  //   iconComponent: CloudDone
-  // },
-  total_ao: { 
-    label: 'Total AOs', 
-    color: '#14b8a6', 
-    icon: 'user-check', 
+
+  // AOs
+  total_ao: {
+    label: 'Total AOs',
+    color: '#14b8a6',
+    icon: 'user-check',
     category: 'warning',
-    iconComponent: UserCheck
+    iconComponent: UserCheck,
   },
-  down_ao: { 
-    label: 'Downloaded AOs', 
-    color: '#3b82f6', 
-    icon: 'check-circle', 
+  down_ao: {
+    label: 'Downloaded AOs',
+    color: '#3b82f6',
+    icon: 'download',
     category: 'warning',
-    iconComponent: Download
+    iconComponent: Download,
+    percentageOf: 'total_ao',
+    percentageLabel: 'Downloaded',
   },
-  pen_ao: { 
-    label: 'Pending AOs', 
-    color: '#f59e0b', 
-    icon: 'clock', 
+  pen_ao: {
+    label: 'Pending AOs',
+    color: '#f59e0b',
+    icon: 'clock',
     category: 'warning',
-    iconComponent: Clock
+    iconComponent: Clock,
+    percentageOf: 'total_ao',
+    percentageLabel: 'Pending',
   },
-  // pen_ht: { 
-  //   label: 'Pending HTs', 
-  //   color: '#f87171', 
-  //   icon: 'watch', 
-  //   category: 'warning',
-  //   iconComponent: WatchIcon
-  // },
+
 };
+
 
 export const sections: DashboardSection[] = [
   { 

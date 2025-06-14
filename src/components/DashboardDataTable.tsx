@@ -6,6 +6,7 @@ import { TableRow } from '../types/dashboard';
 interface TableProps {
   data: TableRow[];
   sectionName?: 'ssc' | 'sci' | 'gen';
+  sectionName?: 'ssc' | 'sci' | 'gen';
 }
 
 type SortKey = 'dist_id' | 'dist_name' | 'code' | 'name';
@@ -49,7 +50,7 @@ const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'sci' | 'gen' = 'ssc
       doc.text(`Page ${currentPage}`, 10, pageHeight - 10);
       doc.text(timestamp, pageWidth / 2, pageHeight - 10, { align: 'center' });
     },
-    margin: { top: 30 },
+    margin: { top: 30 }, 
   });
 
   doc.save(fileName);

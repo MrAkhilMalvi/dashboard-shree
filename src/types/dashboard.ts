@@ -17,6 +17,8 @@ export interface MetricField {
   color: string;
   icon: string;
   category: 'primary' | 'success' | 'warning' | 'info' | 'secondary';
+   percentageOf?: string;
+  percentageLabel?: string;
 }
 
 export interface DashboardSection {

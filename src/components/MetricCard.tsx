@@ -8,6 +8,8 @@ interface MetricCardProps {
   color: string;
   category: 'primary' | 'success' | 'warning' | 'info' | 'secondary';
   isLoading?: boolean;
+  percentage?: number;
+  percentageLabel?: string;
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({
@@ -15,7 +17,10 @@ const MetricCard: React.FC<MetricCardProps> = ({
   label,
   value,
   category,
-  isLoading = false
+  isLoading = false,
+  percentage,
+  percentageLabel,
+  color
 }) => {
   const getCategoryStyles = () => {
     const styles = {
@@ -30,39 +35,52 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse">
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse w-full max-w-[400px] h-[200px]">
         <div className="flex items-center justify-between mb-4">
-          <div className="w-12 h-12 bg-gray-200 rounded-xl"></div>
-          <div className="w-8 h-4 bg-gray-200 rounded"></div>
+          <div className="w-14 h-14 bg-gray-200 rounded-2xl"></div>
+          <div className="w-6 h-3 bg-gray-200 rounded"></div>
         </div>
-        <div className="w-16 h-8 bg-gray-200 rounded mb-2"></div>
-        <div className="w-24 h-4 bg-gray-200 rounded"></div>
+        <div className="w-32 h-5 bg-gray-200 rounded mb-2"></div>
+        <div className="w-36 h-4 bg-gray-200 rounded"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+    <div className="relative bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200 w-full max-w-[400px] h-[200px]">
       <div className="flex items-center justify-between mb-4">
-        <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${getCategoryStyles()} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${getCategoryStyles()} flex items-center justify-center shadow-md`}>
           <Icon className="w-6 h-6 text-white" />
         </div>
-        <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          Live
-        </div>
+        <div className="text-[10px] font-semibold text-gray-400 uppercase">Live</div>
       </div>
-      
+
       <div className="space-y-2">
-        <div className="text-2xl font-bold text-gray-900 tabular-nums">
-          {typeof value === 'number' ? value.toLocaleString() : value}
+        <div className="text-2xl font-bold text-gray-900 leading-tight truncate">
+          {typeof value === 'number' ? value.toLocaleString() : value} 
         </div>
-        <div className="text-sm font-medium text-gray-600 leading-tight">
+        <div className="text-sm font-medium text-gray-600 truncate leading-tight">
           {label}
         </div>
+
+        {/* Percentage Info */}
+        {percentage !== undefined && percentageLabel && (
+          <div className="mt-2">
+            <div className="text-xs text-gray-500 font-medium mb-1">
+              {percentageLabel}: {percentage.toFixed(1)}%
+            </div>
+            <div className="w-full bg-gray-100 h-2 rounded-full">
+              <div
+                className="h-2 rounded-full"
+                style={{
+                  width: `${percentage}%`,
+                  backgroundColor: color,
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
-      
-      {/* Decorative gradient */}
-      <div className={`absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r ${getCategoryStyles()} rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
     </div>
   );
 };
