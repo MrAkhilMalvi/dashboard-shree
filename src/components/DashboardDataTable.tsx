@@ -6,7 +6,6 @@ import { TableRow } from '../types/dashboard';
 interface TableProps {
   data: TableRow[];
   sectionName?: 'ssc' | 'sci' | 'gen';
-  sectionName?: 'ssc' | 'sci' | 'gen';
 }
 
 type SortKey = 'dist_id' | 'dist_name' | 'code' | 'name';
@@ -50,14 +49,15 @@ const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'sci' | 'gen' = 'ssc
       doc.text(`Page ${currentPage}`, 10, pageHeight - 10);
       doc.text(timestamp, pageWidth / 2, pageHeight - 10, { align: 'center' });
     },
-    margin: { top: 30 }, 
+    margin: { top: 30 },
   });
 
   doc.save(fileName);
 };
 
 const DashboardDataTable: React.FC<TableProps> = ({ data, sectionName = 'ssc' }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchName, setSearchName] = useState('');
+  const [searchCode, setSearchCode] = useState('');
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
@@ -80,7 +80,8 @@ const DashboardDataTable: React.FC<TableProps> = ({ data, sectionName = 'ssc' })
   });
 
   const filteredData = sortedData.filter((item) =>
-    item.name?.toLowerCase().includes(searchQuery.toLowerCase())
+    item.name?.toLowerCase().includes(searchName.toLowerCase()) &&
+    item.code?.toLowerCase().includes(searchCode.toLowerCase())
   );
 
   const renderSortArrow = (key: SortKey) => {
@@ -106,12 +107,22 @@ const DashboardDataTable: React.FC<TableProps> = ({ data, sectionName = 'ssc' })
           <input
             type="text"
             placeholder="Search by School Name"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
             className="text-sm border border-gray-300 rounded-md px-3 py-2 w-full sm:w-64 hidden sm:block"
           />
+          <input
+            type="text"
+            placeholder="School Code"
+            value={searchCode}
+            onChange={(e) => setSearchCode(e.target.value)}
+            className="text-sm border border-gray-300 rounded-md px-3 py-2 w-full sm:w-40 hidden sm:block"
+          />
           <button
-            onClick={() => setSearchQuery('')}
+            onClick={() => {
+              setSearchName('');
+              setSearchCode('');
+            }}
             className="text-sm font-medium text-white bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md hidden sm:block"
           >
             Reset
