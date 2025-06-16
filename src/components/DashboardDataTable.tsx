@@ -6,7 +6,6 @@ import { TableRow } from '../types/dashboard';
 interface TableProps {
   data: TableRow[];
   sectionName?: 'ssc' | 'sci' | 'gen';
-  sectionName?: 'ssc' | 'sci' | 'gen';
 }
 
 type SortKey = 'dist_id' | 'dist_name' | 'code' | 'name';
