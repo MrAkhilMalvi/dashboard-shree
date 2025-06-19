@@ -5,7 +5,8 @@ import { TableRow } from '../types/dashboard';
 
 interface TableProps {
   data: TableRow[];
-  sectionName?: 'ssc' | 'sci' | 'gen';
+  sectionName?: 'ssc' | 'science' | 'general';
+  startIndex?: number;
 }
 
 type SortKey = 'dist_id' | 'dist_name' | 'code' | 'name';
@@ -17,15 +18,31 @@ const getFormattedTimestamp = (): string => {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
 };
 
-const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'sci' | 'gen' = 'ssc') => {
+const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'science' | 'general' = 'ssc') => {
   const doc = new jsPDF();
   const timestamp = getFormattedTimestamp();
   const fileName = `${sectionName}_${timestamp}.pdf`;
 
+  // 🧠 Dynamic title based on section
+  const getTitle = () => {
+    console.log(sectionName);
+    switch (sectionName) {
+      
+      case 'general':
+        return 'HSC General School Not Downloaded HT';
+      case 'science':
+        return 'HSC Science School Not Downloaded HT';
+      case 'ssc':
+      default:
+        return 'SSC School Not Downloaded HT';
+    }
+  };
+
   autoTable(doc, {
     startY: 30,
-    head: [['District Id', 'District Name', 'School Code', 'Name', 'Mobile No', 'Pending PDF Count']],
-    body: data.map((item) => [
+    head: [['Sr. No', 'District Id', 'District Name', 'School Code', 'Name', 'Mobile No', 'Pending PDF Count']],
+    body: data.map((item, idx) => [
+      (idx + 1).toString(),
       item.dist_id || '-',
       item.dist_name || '-',
       item.code || '-',
@@ -41,7 +58,7 @@ const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'sci' | 'gen' = 'ssc
       if (currentPage === 1) {
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
-        doc.text('School Not Downloaded HT', pageWidth / 2, 15, { align: 'center' });
+        doc.text(getTitle(), pageWidth / 2, 15, { align: 'center' }); // 👈 Dynamic title here
       }
 
       doc.setFontSize(10);
@@ -54,6 +71,7 @@ const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'sci' | 'gen' = 'ssc
 
   doc.save(fileName);
 };
+
 
 const DashboardDataTable: React.FC<TableProps> = ({ data, sectionName = 'ssc' }) => {
   const [searchName, setSearchName] = useState('');
@@ -141,6 +159,7 @@ const DashboardDataTable: React.FC<TableProps> = ({ data, sectionName = 'ssc' })
         <table className="min-w-[640px] w-full text-sm text-left text-gray-700">
           <thead className="sticky top-0 z-10 bg-gray-100 text-gray-800 uppercase text-xs">
             <tr>
+                <th className="px-3 py-2">Sr. No</th>
               <th className="px-3 py-2 cursor-pointer" onClick={() => handleSort('dist_id')}>
                 District Id{renderSortArrow('dist_id')}
               </th>
@@ -164,6 +183,7 @@ const DashboardDataTable: React.FC<TableProps> = ({ data, sectionName = 'ssc' })
                   key={idx}
                   className={`border-t ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-indigo-50 transition`}
                 >
+                  <td className="px-3 py-2 whitespace-nowrap">{idx + 1}</td> 
                   <td className="px-3 py-2 whitespace-nowrap">{item.dist_id || '-'}</td>
                   <td className="px-3 py-2 whitespace-nowrap">{item.dist_name || '-'}</td>
                   <td className="px-3 py-2 whitespace-nowrap">{item.code || '-'}</td>
