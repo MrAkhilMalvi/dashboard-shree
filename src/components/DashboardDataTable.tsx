@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { TableRow } from '../types/dashboard';
+// import "../assets/fonts/MuktaVaani-Medium-normal"; 
+
 
 interface TableProps {
   data: TableRow[];
@@ -57,6 +59,12 @@ const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'science' | 'general
 
       if (currentPage === 1) {
         doc.setFontSize(14);
+        // console.log(doc.getFontList());
+//         doc.setFont("MuktaVaani-Medium", "normal"); // Must match name & style from the generated file
+// doc.setFontSize(14);
+
+// // ✅ Gujarati Text
+// doc.text("ગુજરાત માધ્યમિક અને ઉચ્ચતર માધ્યમિક શિક્ષણ બોર્ડ", 105, 20, { align: "center" });
         doc.setFont('helvetica', 'bold');
         doc.text(getTitle(), pageWidth / 2, 15, { align: 'center' }); // 👈 Dynamic title here
       }
