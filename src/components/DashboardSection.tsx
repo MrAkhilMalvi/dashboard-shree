@@ -130,7 +130,14 @@ const DashboardSection: React.FC<DashboardSectionProps> = ({
         <div className="mt-8 w-full overflow-x-auto max-w-full">
           <DashboardDataTable
             data={table.data}
-            sectionName={section.id as "ssc" | "sci" | "gen"}
+            sectionName={
+  section.id.startsWith('science')
+    ? 'science'
+    : section.id.startsWith('general')
+    ? 'general'
+    : 'ssc'
+}
+
           />
         </div>
       )}
