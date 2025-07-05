@@ -31,12 +31,12 @@ const exportToPDF = (data: TableRow[], sectionName: 'ssc' | 'science' | 'general
     switch (sectionName) {
       
       case 'general':
-        return 'HSC General School Not Downloaded HT';
+        return 'HSC GENERAL PURAK 2025 PENDING HALLTICKET DOWNLOAD REPORT';
       case 'science':
-        return 'HSC Science School Not Downloaded HT';
+        return 'HSC SCIENCE PURAK 2025 PENDING HALLTICKET DOWNLOAD REPORT';
       case 'ssc':
       default:
-        return 'SSC School Not Downloaded HT';
+        return 'SSC PURAK 2025 PENDING HALLTICKET DOWNLOAD REPORT';
     }
   };
 
